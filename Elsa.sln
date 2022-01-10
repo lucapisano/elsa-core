@@ -381,9 +381,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Activities.RabbitMq", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Samples.RabbitMqWorker", "src\samples\worker\Elsa.Samples.RabbitMqWorker\Elsa.Samples.RabbitMqWorker.csproj", "{67C58C2B-B873-47C8-B5B9-93B0587EE634}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elsa.Activities.Mqtt", "src\activities\Elsa.Activities.Mqtt\Elsa.Activities.Mqtt.csproj", "{791D50F6-EAF2-4E20-9EDF-3BAF9CB7F796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Activities.Mqtt", "src\activities\Elsa.Activities.Mqtt\Elsa.Activities.Mqtt.csproj", "{791D50F6-EAF2-4E20-9EDF-3BAF9CB7F796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elsa.Samples.MqttWorker", "src\samples\worker\Elsa.Samples.MqttWorker\Elsa.Samples.MqttWorker.csproj", "{8B58C3EA-20C2-491A-ADEC-E41F0EC787FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Samples.MqttWorker", "src\samples\worker\Elsa.Samples.MqttWorker\Elsa.Samples.MqttWorker.csproj", "{8B58C3EA-20C2-491A-ADEC-E41F0EC787FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Persistence.EntityFramework.DocumentDb", "src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.DocumentDb\Elsa.Persistence.EntityFramework.DocumentDb.csproj", "{2A12FE24-0D96-49AE-B17C-0AC03C7F7777}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -915,6 +917,10 @@ Global
 		{8B58C3EA-20C2-491A-ADEC-E41F0EC787FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B58C3EA-20C2-491A-ADEC-E41F0EC787FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B58C3EA-20C2-491A-ADEC-E41F0EC787FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A12FE24-0D96-49AE-B17C-0AC03C7F7777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A12FE24-0D96-49AE-B17C-0AC03C7F7777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A12FE24-0D96-49AE-B17C-0AC03C7F7777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A12FE24-0D96-49AE-B17C-0AC03C7F7777}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1087,6 +1093,7 @@ Global
 		{67C58C2B-B873-47C8-B5B9-93B0587EE634} = {E42743A0-FBDD-4150-9D53-6000496D9B87}
 		{791D50F6-EAF2-4E20-9EDF-3BAF9CB7F796} = {B43B546E-23F3-46E8-ACB7-D04F05CDA180}
 		{8B58C3EA-20C2-491A-ADEC-E41F0EC787FB} = {E42743A0-FBDD-4150-9D53-6000496D9B87}
+		{2A12FE24-0D96-49AE-B17C-0AC03C7F7777} = {C865B0FD-E505-48F0-BFAF-0D4D7C1B5CA1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B0975FD-7050-48B0-88C5-48C33378E158}

@@ -16,6 +16,8 @@ namespace Elsa.Persistence.EntityFramework.Core.Configuration
             builder.HasIndex(x => x.WorkflowInstanceId).HasDatabaseName($"IX_{nameof(Bookmark)}_{nameof(Bookmark.WorkflowInstanceId)}");
             builder.HasIndex(x => x.CorrelationId).HasDatabaseName($"IX_{nameof(Bookmark)}_{nameof(Bookmark.CorrelationId)}");
             builder.HasIndex(x => new {x.Hash, x.CorrelationId, x.TenantId}).HasDatabaseName($"IX_{nameof(Bookmark)}_{nameof(Bookmark.Hash)}_{nameof(Bookmark.CorrelationId)}_{nameof(Bookmark.TenantId)}");
+
+            builder.ToContainer(nameof(Bookmark));
         }
     }
 }
