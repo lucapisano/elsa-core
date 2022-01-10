@@ -10,33 +10,11 @@ public void ConfigureServices(IServiceCollection services)
             .UseEntityFrameworkPersistence(
                 contextOptions =>
                 {
-                    contextOptions.UseMySql(
-                        "Server=localhost;Port=3306;Database=elsa;User=root;Password=password;");
+                    contextOptions.UseDocumentDb(
+                        "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+                        "Elsa");
                 },
-                autoRunMigrations: true)
+                autoRunMigrations: false)
     );
 }
 ```
-
-### Entity Framework Core Commands
-
-These commands are used by the package developer.
-
-**Generate Migrations**
-
-```
-dotnet ef migrations add Initial -- "Server=localhost;Port=3306;Database=elsa;User=root;Password=password;"
-dotnet ef migrations add Update1 -- "Server=localhost;Port=3306;Database=elsa;User=root;Password=password;"
-dotnet ef migrations add Update2 -- "Server=localhost;Port=3306;Database=elsa;User=root;Password=password;"
-```
-
-etc...
-
-Optionally provide a server version explicitly if you don't have MySql running locally:
-
-`dotnet ef migrations add Initial -- "Server=localhost;Port=3306;Database=elsa;User=root;Password=password;" "8.0.22"`
-
-**Apply Migrations**
-
-`dotnet ef database update -- "Server=localhost;Port=3306;Database=elsa;User=root;Password=password;"`
-
