@@ -6,6 +6,7 @@ using Elsa.Persistence.Specifications.WorkflowInstances;
 using Elsa.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Elsa.Persistence.EntityFramework.SqlServer;
+using Elsa.Persistence.EntityFramework.DocumentDb;
 
 namespace Elsa.Samples.Persistence.EntityFramework
 {
@@ -13,6 +14,8 @@ namespace Elsa.Samples.Persistence.EntityFramework
     {
         private static async Task Main()
         {
+            var connStr = "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+            var dbName = "Elsa";
             // Create a service container with Elsa services.
             var services = new ServiceCollection()
                 .AddElsa(options => options
@@ -25,13 +28,19 @@ namespace Elsa.Samples.Persistence.EntityFramework
 
                         //ef.UseMySql("Server=localhost;Port=3306;Database=elsa;User=root;Password=password;");
 
-                        ef.UseSqlServer("Server=localhost;Database=Elsa;Integrated Security=true");
-                    })
+                        //ef.UseSqlServer("Server=localhost;Database=Elsa;Integrated Security=true");
+                        
+                        ef.UseDocumentDb(
+                            connStr,
+                            dbName);
+                    }, false)
                     .AddConsoleActivities()
                     .AddWorkflow<HelloWorld>())
                 .AddAutoMapperProfiles<Program>()
                 .BuildServiceProvider();
-            
+
+            var ctx = new DocumentDbElsaContextFactory().CreateDbContext(connStr, dbName);
+            ctx.Database.EnsureCreated();
             // Run startup actions (not needed when registering Elsa with a Host).
             var startupRunner = services.GetRequiredService<IStartupRunner>();
             await startupRunner.StartupAsync();

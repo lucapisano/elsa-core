@@ -43,6 +43,13 @@ namespace Elsa.Activities.Workflows
         public string? WorkflowDefinitionId { get; set; } = default!;
 
         [ActivityInput(
+            Label = "Workflow Definition Name",
+            Hint = "The workflow definition Name to run.",
+            SupportedSyntaxes = new[] { SyntaxNames.JavaScript, SyntaxNames.Liquid }
+        )]
+        public string? WorkflowDefinitionName { get; set; } = default!;
+
+        [ActivityInput(
             Label = "Tenant ID",
             Hint = "The tenant ID to which the workflow to run belongs.",
             Category = PropertyCategories.Advanced,
@@ -178,6 +185,9 @@ namespace Elsa.Activities.Workflows
             var query = await _workflowRegistry.ListAsync(cancellationToken);
 
             query = query.Where(x => x.WithVersion(VersionOptions.Published));
+
+            if (WorkflowDefinitionName != null)
+                query = query.Where(x => x.Name == WorkflowDefinitionName);
 
             if (WorkflowDefinitionId != null)
                 query = query.Where(x => x.Id == WorkflowDefinitionId);

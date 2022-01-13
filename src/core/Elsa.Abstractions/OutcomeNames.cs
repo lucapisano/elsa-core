@@ -8,5 +8,6 @@ namespace Elsa
         public const string False = "False";
         public const string Iterate = "Iterate";
         public const string Default = "Default";
+        public const string Timeout = "Timeout";
     }
 }

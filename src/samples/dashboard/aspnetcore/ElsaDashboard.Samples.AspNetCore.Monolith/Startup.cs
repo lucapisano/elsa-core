@@ -1,6 +1,7 @@
 using Elsa;
 using Elsa.Activities.UserTask.Extensions;
 using Elsa.Persistence.EntityFramework.Core.Extensions;
+using Elsa.Persistence.EntityFramework.DocumentDb;
 using Elsa.Persistence.EntityFramework.Sqlite;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,10 +27,25 @@ namespace ElsaDashboard.Samples.AspNetCore.Monolith
 
             // Elsa Server.
             var elsaSection = Configuration.GetSection("Elsa");
-            
+
+            var ctx = new DocumentDbElsaContextFactory().CreateDbContext(
+                Configuration.GetSection("DocumentDbOptions:ConnectionString").Get<string>(),
+                        Configuration.GetSection("DocumentDbOptions:DatabaseName").Get<string>()
+                        );
+            ctx.Database.EnsureCreated();
+
             services
                 .AddElsa(options => options
-                    .UseEntityFrameworkPersistence(ef => ef.UseSqlite())
+                    //.UseEntityFrameworkPersistence(ef => ef.UseSqlite())
+                    .UseEntityFrameworkPersistence(ef => ef.UseDocumentDb(
+                        Configuration.GetSection("DocumentDbOptions:ConnectionString").Get<string>(),
+                        Configuration.GetSection("DocumentDbOptions:DatabaseName").Get<string>()
+                        ), false)
+                    /*.UseDocumentDbPersistence(c =>
+                    {
+                        c.ConnectionString = Configuration.GetSection("DocumentDbOptions:ConnectionString").Get<string>();
+                        c.DatabaseName = Configuration.GetSection("DocumentDbOptions:DatabaseName").Get<string>();
+                    })*/
                     .AddConsoleActivities()
                     .AddHttpActivities(elsaSection.GetSection("Server").Bind)
                     .AddEmailActivities(elsaSection.GetSection("Smtp").Bind)

@@ -244,7 +244,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddTransient<IGetsTriggersForActivityBlueprintAndWorkflow, TriggersForActivityBlueprintAndWorkflowProvider>()
                 .AddSingleton<ITriggerStore, TriggerStore>()
                 .AddScoped<ITriggerFinder, TriggerFinder>()
-                .AddBookmarkProvider<SignalReceivedBookmarkProvider>()
+                .AddBookmarkProvider<SignalReceivedBookmarkProvider>()                
                 .AddBookmarkProvider<RunWorkflowBookmarkProvider>();
 
             // Mediator.

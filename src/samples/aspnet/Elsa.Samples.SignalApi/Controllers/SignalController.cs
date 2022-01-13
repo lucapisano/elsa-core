@@ -1,5 +1,6 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
+using Elsa.Activities.Signaling;
 using Elsa.Activities.Signaling.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,9 @@ namespace Elsa.Samples.SignalApi.Controllers
         [HttpGet("{workflowInstanceId}/extinguish")]
         public async Task<IActionResult> Extinguish(string workflowInstanceId, CancellationToken cancellationToken)
         {
-            var startedWorkflows = await _signaler.TriggerSignalAsync("Water", workflowInstanceId: workflowInstanceId, cancellationToken: cancellationToken);
+            //var startedWorkflows = await _signaler.TriggerSignalAsync("Water", workflowInstanceId: workflowInstanceId, cancellationToken: cancellationToken);
+            var startedWorkflows = await _signaler.TriggerSignalAsync("Water", workflowInstanceId: workflowInstanceId, cancellationToken: cancellationToken,
+                activityType: nameof(TimeoutSignalReceived));
             return Ok(startedWorkflows);
         }
     }

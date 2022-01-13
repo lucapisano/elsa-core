@@ -14,6 +14,7 @@ namespace ElsaDashboard.Samples.AspNetCore.Monolith
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder
                     .UseStaticWebAssets()
-                    .UseStartup<Startup>(); });
+                    .UseStartup<Startup>(); 
+                });
     }
 }   

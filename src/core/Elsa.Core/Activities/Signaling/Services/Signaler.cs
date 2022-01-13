@@ -31,12 +31,12 @@ namespace Elsa.Activities.Signaling.Services
             return await TriggerSignalAsync(signal.Name, input, signal.WorkflowInstanceId, cancellationToken: cancellationToken);
         }
 
-        public async Task<IEnumerable<CollectedWorkflow>> TriggerSignalAsync(string signal, object? input = default, string? workflowInstanceId = default, string? correlationId = default, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CollectedWorkflow>> TriggerSignalAsync(string signal, object? input = default, string? workflowInstanceId = default, string? correlationId = default, CancellationToken cancellationToken = default, string? activityType = null)
         {
             var normalizedSignal = signal.ToLowerInvariant();
 
             return await _workflowLaunchpad.CollectAndExecuteWorkflowsAsync(new WorkflowsQuery(
-                nameof(SignalReceived),
+                activityType ?? nameof(SignalReceived),
                 new SignalReceivedBookmark { Signal = normalizedSignal },
                 correlationId,
                 workflowInstanceId,
@@ -53,12 +53,12 @@ namespace Elsa.Activities.Signaling.Services
             return await DispatchSignalAsync(signal.Name, input, signal.WorkflowInstanceId, cancellationToken: cancellationToken);
         }
 
-        public async Task<IEnumerable<CollectedWorkflow>> DispatchSignalAsync(string signal, object? input = default, string? workflowInstanceId = default, string? correlationId = default, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<CollectedWorkflow>> DispatchSignalAsync(string signal, object? input = default, string? workflowInstanceId = default, string? correlationId = default, CancellationToken cancellationToken = default, string? activityType = null)
         {
             var normalizedSignal = signal.ToLowerInvariant();
             
             return await _workflowLaunchpad.CollectAndDispatchWorkflowsAsync(new WorkflowsQuery(
-                    nameof(SignalReceived),
+                    activityType ?? nameof(SignalReceived),
                     new SignalReceivedBookmark { Signal = normalizedSignal },
                     correlationId,
                     workflowInstanceId,

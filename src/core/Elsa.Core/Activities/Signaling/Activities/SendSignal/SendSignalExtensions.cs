@@ -25,5 +25,11 @@ namespace Elsa.Activities.Signaling
         public static ISetupActivity<SendSignal> WithInput(this ISetupActivity<SendSignal> activity, Func<ValueTask<object?>> value) => activity.Set(x => x.Input, value);
         public static ISetupActivity<SendSignal> WithInput(this ISetupActivity<SendSignal> activity, Func<object?> value) => activity.Set(x => x.Input, value);
         public static ISetupActivity<SendSignal> WithInput(this ISetupActivity<SendSignal> activity, object? value) => activity.Set(x => x.Input, value);
+
+        public static ISetupActivity<SendSignal> WithActivityType(this ISetupActivity<SendSignal> activity, Func<ActivityExecutionContext, ValueTask<string?>> value) => activity.Set(x => x.ActivityType, value);
+        public static ISetupActivity<SendSignal> WithActivityType(this ISetupActivity<SendSignal> activity, Func<ActivityExecutionContext, string?> value) => activity.Set(x => x.ActivityType, value);
+        public static ISetupActivity<SendSignal> WithActivityType(this ISetupActivity<SendSignal> activity, Func<ValueTask<string?>> value) => activity.Set(x => x.ActivityType, value);
+        public static ISetupActivity<SendSignal> WithActivityType(this ISetupActivity<SendSignal> activity, Func<string?> value) => activity.Set(x => x.ActivityType, value);
+        public static ISetupActivity<SendSignal> WithActivityType(this ISetupActivity<SendSignal> activity, string? value) => activity.Set(x => x.ActivityType, value);
     }
 }

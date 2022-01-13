@@ -103,7 +103,7 @@
           "syntax": "JavaScript",
           "expressions": {
             "$id": "17",
-            "JavaScript": "Duration.FromSeconds(10)"
+            "JavaScript": "Duration.FromSeconds(180)"
           }
         }
       ]
@@ -177,7 +177,7 @@
     {
       "$id": "29",
       "activityId": "21e9a4d0-e49f-46b4-9d0b-d96cf3d4fea1",
-      "type": "SignalReceived",
+      "type": "TimeoutSignalReceived",
       "displayName": "Signal Received",
       "persistWorkflow": false,
       "loadWorkflowContext": false,

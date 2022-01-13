@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Elsa.Activities.Signaling;
 using Elsa.Activities.Signaling.Services;
 using Elsa.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,10 @@ namespace Elsa.Samples.SignalingConsole
             var services = new ServiceCollection()
                 .AddElsa(options => options
                     .AddConsoleActivities()
-                    .AddWorkflowsFrom<SignalReceiverWorkflow>())
+                    .AddQuartzTemporalActivities()
+                    .AddWorkflowsFrom<SignalReceiverWorkflow>()
+                    //.AddWorkflowsFrom<TimeoutSignalReceiverWorkflow>()
+                    )
                 .BuildServiceProvider();
 
             // Run startup actions (will index triggers such as SignalReceived from workflows).
@@ -29,7 +33,6 @@ namespace Elsa.Samples.SignalingConsole
             
             // Get a workflow runner.
             var workflowRunner = services.GetRequiredService<IBuildsAndStartsWorkflow>();
-            
             // This workflow will send a signal, which will be handled by the `SignalReceiverWorkflow`.
             await workflowRunner.BuildAndStartWorkflowAsync<SignalSenderWorkflow>();
             
@@ -40,6 +43,7 @@ namespace Elsa.Samples.SignalingConsole
             
             var signaler = services.GetRequiredService<ISignaler>();
             await signaler.TriggerSignalAsync("Demo Signal");
+            //await signaler.TriggerSignalAsync("Demo Signal", activityType: nameof(TimeoutSignalReceived));
 
             // Keep the application alive for the workflow scheduler to have enough time to resume the workflow. 
             Console.ReadLine();

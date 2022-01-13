@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Elsa.Services.Models;
@@ -15,7 +15,7 @@ namespace Elsa.Activities.Signaling.Services
         /// <summary>
         /// Runs all workflows that start with or are blocked on the <see cref="SignalReceived"/> activity.
         /// </summary>
-        Task<IEnumerable<CollectedWorkflow>> TriggerSignalAsync(string signal, object? input = null, string? workflowInstanceId = null, string? correlationId = null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CollectedWorkflow>> TriggerSignalAsync(string signal, object? input = null, string? workflowInstanceId = null, string? correlationId = null, CancellationToken cancellationToken = default, string? activityType = null);
         
         /// <summary>
         /// Dispatches all workflows that start with or are blocked on the <see cref="SignalReceived"/> activity.
@@ -25,6 +25,6 @@ namespace Elsa.Activities.Signaling.Services
         /// <summary>
         /// Dispatches all workflows that start with or are blocked on the <see cref="SignalReceived"/> activity.
         /// </summary>
-        Task<IEnumerable<CollectedWorkflow>> DispatchSignalAsync(string signal, object? input = default, string? workflowInstanceId = default, string? correlationId = default, CancellationToken cancellationToken = default);
+        Task<IEnumerable<CollectedWorkflow>> DispatchSignalAsync(string signal, object? input = default, string? workflowInstanceId = default, string? correlationId = default, CancellationToken cancellationToken = default, string? activityType = null);
     }
 }

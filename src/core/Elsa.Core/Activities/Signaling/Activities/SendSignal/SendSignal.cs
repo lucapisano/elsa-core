@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Elsa.Activities.Signaling.Services;
 using Elsa.ActivityResults;
 using Elsa.Attributes;
+using Elsa.Design;
 using Elsa.Expressions;
 using Elsa.Persistence;
 using Elsa.Services;
@@ -32,6 +33,9 @@ namespace Elsa.Activities.Signaling
         [ActivityInput(Hint = "An expression that evaluates to the name of the signal to trigger.", SupportedSyntaxes = new[] { SyntaxNames.JavaScript, SyntaxNames.Liquid })]
         public string Signal { get; set; } = default!;
 
+        [ActivityInput(Hint = "Defaults to SignalReceived.", Category = PropertyCategories.Advanced, SupportedSyntaxes = new[] { SyntaxNames.JavaScript, SyntaxNames.Liquid })]
+        public string? ActivityType { get; set; } = null;
+
         [ActivityInput(Hint = "An expression that evaluates to the correlation ID to use when signaling.", SupportedSyntaxes = new[] { SyntaxNames.JavaScript, SyntaxNames.Liquid })]
         public string? CorrelationId { get; set; }
 
@@ -44,7 +48,7 @@ namespace Elsa.Activities.Signaling
             await _workflowInstanceStore.SaveAsync(context.WorkflowInstance, context.CancellationToken);
             
             // Trigger the signal synchronously. If we dispatched the signal instead, we don;t have to explicitly save the workflow instance. For future reconsideration.  
-            await _signaler.DispatchSignalAsync(Signal, Input,  correlationId: CorrelationId, cancellationToken: context.CancellationToken);
+            await _signaler.DispatchSignalAsync(Signal, Input,  correlationId: CorrelationId, cancellationToken: context.CancellationToken, activityType: ActivityType);
             return Done();
         }
     }

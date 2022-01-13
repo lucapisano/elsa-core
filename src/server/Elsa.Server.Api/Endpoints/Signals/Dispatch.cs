@@ -33,7 +33,7 @@ namespace Elsa.Server.Api.Endpoints.Signals
         ]
         public async Task<IActionResult> Handle(string signalName, DispatchSignalRequest request, CancellationToken cancellationToken = default)
         {
-            var result = await _signaler.DispatchSignalAsync(signalName, request.Input, request.WorkflowInstanceId, request.CorrelationId, cancellationToken).ToList();
+            var result = await _signaler.DispatchSignalAsync(signalName, request.Input, request.WorkflowInstanceId, request.CorrelationId, cancellationToken, activityType: request.ActivityType).ToList();
 
             if (Response.HasStarted)
                 return new EmptyResult();

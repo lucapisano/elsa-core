@@ -1,4 +1,5 @@
 using System;
+using Elsa.Activities.Signaling;
 using Elsa.Activities.Temporal.Common.Bookmarks;
 using Elsa.Activities.Temporal.Common.Handlers;
 using Elsa.Activities.Temporal.Common.HostedServices;
@@ -36,13 +37,16 @@ namespace Elsa.Activities.Temporal
                 .AddHostedService<ScopedBackgroundService<StartJobs>>()
                 .AddBookmarkProvider<TimerBookmarkProvider>()
                 .AddBookmarkProvider<CronBookmarkProvider>()
-                .AddBookmarkProvider<StartAtBookmarkProvider>();
+                .AddBookmarkProvider<StartAtBookmarkProvider>()
+                .AddBookmarkProvider<TimeoutSignalReceivedBookmarkProvider>()
+                ;
 
             options
                 .AddActivity<Cron>()
                 .AddActivity<Timer>()
                 .AddActivity<StartAt>()
-                .AddActivity<ClearTimer>();
+                .AddActivity<ClearTimer>()
+                .AddActivity<Signaling.TimeoutSignalReceived>();
 
             return options;
         }

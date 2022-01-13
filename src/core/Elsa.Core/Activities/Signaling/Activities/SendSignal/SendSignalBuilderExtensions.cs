@@ -27,5 +27,8 @@ namespace Elsa.Activities.Signaling
 
         public static IActivityBuilder SendSignal(this IBuilder builder, string signal, [CallerLineNumber] int lineNumber = default, [CallerFilePath] string? sourceFile = default) =>
             builder.SendSignal(activity => activity.WithSignal(signal!), lineNumber, sourceFile);
+
+        public static IActivityBuilder SendSignal(this IBuilder builder, string signal, string activityType) =>
+            builder.SendSignal(activity => activity.WithSignal(signal!).WithActivityType(activityType));
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Elsa.Services.Models;
 
 namespace Elsa.Server.Api.Endpoints.Signals
@@ -10,16 +10,18 @@ namespace Elsa.Server.Api.Endpoints.Signals
         {
         }
         
-        public DispatchSignalRequest(string? workflowInstanceId, string? correlationId, object? input)
+        public DispatchSignalRequest(string? workflowInstanceId, string? correlationId, object? input, string? activityType = null)
         {
             WorkflowInstanceId = workflowInstanceId;
             CorrelationId = correlationId;
             Input = input;
+            ActivityType = activityType;
         }
 
         public string? WorkflowInstanceId { get; init; }
         public string? CorrelationId { get; init; }
         public object? Input { get; init; }
+        public string? ActivityType { get; init; }
     }
 
     public record DispatchSignalResponse
@@ -44,16 +46,18 @@ namespace Elsa.Server.Api.Endpoints.Signals
         {
         }
         
-        public ExecuteSignalRequest(string? workflowInstanceId, string? correlationId, object? input)
+        public ExecuteSignalRequest(string? workflowInstanceId, string? correlationId, object? input, string? activityType = null)
         {
             WorkflowInstanceId = workflowInstanceId;
             CorrelationId = correlationId;
             Input = input;
+            ActivityType = activityType;
         }
         
         public string? WorkflowInstanceId { get; init; }
         public string? CorrelationId { get; init; }
         public object? Input { get; init; }
+        public string? ActivityType { get; init; }
     }
 
     public record ExecuteSignalResponse
