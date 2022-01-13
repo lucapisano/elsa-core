@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Elsa.Activities.Signaling.Models;
 using Elsa.Activities.Temporal.Common.ActivityResults;
 using Elsa.ActivityResults;
@@ -18,7 +20,7 @@ namespace Elsa.Activities.Signaling
     [Trigger(
         Category = "Workflows",
         Description = "Suspend workflow execution until the specified signal is received.",
-        Outcomes = new[] { OutcomeNames.Done }
+        Outcomes = new[] { OutcomeNames.Done, OutcomeNames.Timeout }
     )]
     public class TimeoutSignalReceived : Activity
     {
@@ -54,10 +56,10 @@ namespace Elsa.Activities.Signaling
             return false;
         }
 
-        protected override IActivityExecutionResult OnExecute(ActivityExecutionContext context)
+        public override async ValueTask<IActivityExecutionResult> ExecuteAsync(ActivityExecutionContext context)
         {
             if (context.WorkflowExecutionContext.IsFirstPass)
-            {
+            {   
                 return OnResume(context);
             }
             else
@@ -75,9 +77,16 @@ namespace Elsa.Activities.Signaling
                 }
             }
         }
-
-        protected override IActivityExecutionResult OnResume(ActivityExecutionContext context)
+        async Task RemoveBlocks(ActivityExecutionContext context)
         {
+            // Remove blocking activity.
+            var blockingActivity = context.WorkflowInstance.BlockingActivities.FirstOrDefault(x => x.ActivityId == context.ActivityId);
+            if (blockingActivity != null)
+                await context.WorkflowExecutionContext.RemoveBlockingActivityAsync(blockingActivity);
+        }
+        protected override async ValueTask<IActivityExecutionResult> OnResumeAsync(ActivityExecutionContext context)
+        {
+            await RemoveBlocks(context);
             if (ExecuteAt <= _clock.GetCurrentInstant())
             {
                 return Outcome(OutcomeNames.Timeout);
