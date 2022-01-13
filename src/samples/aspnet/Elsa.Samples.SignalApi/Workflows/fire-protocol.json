@@ -103,7 +103,7 @@
           "syntax": "JavaScript",
           "expressions": {
             "$id": "17",
-            "JavaScript": "Duration.FromSeconds(180)"
+            "JavaScript": "Duration.FromSeconds(500)"
           }
         }
       ]

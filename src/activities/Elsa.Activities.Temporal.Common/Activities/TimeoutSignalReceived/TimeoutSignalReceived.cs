@@ -1,11 +1,13 @@
 using System;
 using Elsa.Activities.Signaling.Models;
+using Elsa.Activities.Temporal.Common.ActivityResults;
 using Elsa.ActivityResults;
 using Elsa.Attributes;
 using Elsa.Design;
 using Elsa.Expressions;
 using Elsa.Services;
 using Elsa.Services.Models;
+using NodaTime;
 
 // ReSharper disable once CheckNamespace
 namespace Elsa.Activities.Signaling
@@ -20,6 +22,13 @@ namespace Elsa.Activities.Signaling
     )]
     public class TimeoutSignalReceived : Activity
     {
+        private readonly IClock _clock;
+
+        public TimeoutSignalReceived(IClock clock)
+        {
+            _clock = clock;
+        }
+
         [ActivityInput(Hint = "The name of the signal to wait for.", SupportedSyntaxes = new[] { SyntaxNames.JavaScript, SyntaxNames.Liquid })]
         public string Signal { get; set; } = default!;
 
@@ -36,7 +45,18 @@ namespace Elsa.Activities.Signaling
             return false;
         }
 
-        protected override IActivityExecutionResult OnExecute(ActivityExecutionContext context) => context.WorkflowExecutionContext.IsFirstPass ? OnResume(context) : Suspend();
+        protected override IActivityExecutionResult OnExecute(ActivityExecutionContext context)
+        {
+            if (context.WorkflowExecutionContext.IsFirstPass)
+            {
+                return OnResume(context);
+            }
+            else
+            {
+                var ExecuteAt = _clock.GetCurrentInstant().Plus(Duration.FromSeconds(15));
+                return Combine(Suspend(), new ScheduleWorkflowResult(ExecuteAt));
+            }
+        }
 
         protected override IActivityExecutionResult OnResume(ActivityExecutionContext context)
         {
