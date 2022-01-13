@@ -32,13 +32,22 @@ namespace Elsa.Activities.Signaling
         [ActivityInput(Hint = "The name of the signal to wait for.", SupportedSyntaxes = new[] { SyntaxNames.JavaScript, SyntaxNames.Liquid })]
         public string Signal { get; set; } = default!;
 
+        [ActivityInput(Hint = "The timeout interval at which this activity should resume and timeout.", SupportedSyntaxes = new[] { SyntaxNames.JavaScript, SyntaxNames.Liquid })]
+        public Duration Timeout { get; set; } = default!;
+
         [ActivityOutput(Hint = "The input that was received with the signal.")]
         public object? SignalInput { get; set; }
         
         [ActivityOutput] public object? Output { get; set; }
-
+        public Instant? ExecuteAt
+        {
+            get => GetState<Instant?>();
+            set => SetState(value);
+        }
         protected override bool OnCanExecute(ActivityExecutionContext context)
         {
+            if (ExecuteAt <= _clock.GetCurrentInstant())
+                return true;/*se il timeout è scaduto, può eseguire l'attività e restituire Outcome(Timeout)*/
             if (context.Input is Signal triggeredSignal)
                 return string.Equals(triggeredSignal.SignalName, Signal, StringComparison.OrdinalIgnoreCase);
 
@@ -53,13 +62,26 @@ namespace Elsa.Activities.Signaling
             }
             else
             {
-                var ExecuteAt = _clock.GetCurrentInstant().Plus(Duration.FromSeconds(15));
-                return Combine(Suspend(), new ScheduleWorkflowResult(ExecuteAt));
+                if (Timeout.TotalTicks > 0)
+                {
+                    ExecuteAt = _clock.GetCurrentInstant().Plus(Timeout);
+                    context.JournalData.Add("Timeout Time", ExecuteAt);
+                    return Combine(Suspend(), new ScheduleWorkflowResult(ExecuteAt.Value));
+                }
+                else
+                {
+                    context.JournalData.Add("Timeout Time", "never");
+                    return Suspend();
+                }
             }
         }
 
         protected override IActivityExecutionResult OnResume(ActivityExecutionContext context)
         {
+            if (ExecuteAt <= _clock.GetCurrentInstant())
+            {
+                return Outcome(OutcomeNames.Timeout);
+            }
             var triggeredSignal = context.GetInput<Signal>()!;
             SignalInput = triggeredSignal.Input;
             Output = triggeredSignal.Input;
