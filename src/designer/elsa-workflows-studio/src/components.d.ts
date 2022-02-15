@@ -203,6 +203,7 @@ export namespace Components {
     interface ElsaStudioRoot {
         "addPlugin": (pluginType: any) => Promise<void>;
         "addPlugins": (pluginTypes: Array<any>) => Promise<void>;
+        "appkey": string;
         "basePath": string;
         "config": string;
         "culture": string;
@@ -989,6 +990,7 @@ declare namespace LocalJSX {
         "culture"?: string;
     }
     interface ElsaStudioRoot {
+        "appkey"?: string;
         "basePath"?: string;
         "config"?: string;
         "culture"?: string;
