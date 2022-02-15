@@ -4,6 +4,7 @@
     <Import Project="..\..\..\configureawait.props" />
 
     <PropertyGroup>
+        <Version>2.4.0.4</Version>
         <TargetFramework>netstandard2.1</TargetFramework>
         <RootNamespace>Elsa</RootNamespace>
         <Description>

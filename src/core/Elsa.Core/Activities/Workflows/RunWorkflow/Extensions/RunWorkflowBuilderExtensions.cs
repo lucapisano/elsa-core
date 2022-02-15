@@ -47,5 +47,8 @@ namespace Elsa.Activities.Workflows
         
         public static IActivityBuilder RunWorkflow(this IBuilder builder, Variables customAttributes, RunWorkflow.RunWorkflowMode mode) =>
             builder.RunWorkflow(activity => activity.WithMode(mode).WithCustomAttributes(customAttributes));
+        
+        public static IActivityBuilder RunWorkflowWithName(this IBuilder builder, string name, RunWorkflow.RunWorkflowMode mode) =>
+            builder.RunWorkflow(activity => activity.WithMode(mode).Set(x=>x.WorkflowDefinitionName, name));
     }
 }

@@ -186,13 +186,13 @@ namespace Elsa.Activities.Workflows
 
             query = query.Where(x => x.WithVersion(VersionOptions.Published));
 
-            if (WorkflowDefinitionName != null)
+            if (!string.IsNullOrWhiteSpace(WorkflowDefinitionName))
                 query = query.Where(x => x.Name == WorkflowDefinitionName);
 
-            if (WorkflowDefinitionId != null)
+            if (!string.IsNullOrWhiteSpace(WorkflowDefinitionId))
                 query = query.Where(x => x.Id == WorkflowDefinitionId);
 
-            if (TenantId != null)
+            if (!string.IsNullOrWhiteSpace(TenantId))
                 query = query.Where(x => x.TenantId == TenantId);
 
             if (CustomAttributes != null)

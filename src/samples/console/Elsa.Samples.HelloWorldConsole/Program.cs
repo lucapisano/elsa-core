@@ -12,7 +12,9 @@ namespace Elsa.Samples.HelloWorldConsole
             var services = new ServiceCollection()
                 .AddElsa(options => options
                     .AddConsoleActivities()
-                    .AddWorkflow<HelloWorld>())
+                    .AddWorkflow<HelloWorld>()
+                    .AddWorkflow<HelloWorld2>()
+                    )
                 .BuildServiceProvider();
             
             // Get a workflow runner.
