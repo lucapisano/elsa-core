@@ -1,7 +1,8 @@
 using Elsa.Serialization;
+using Elsa.Server.Api.Converters;
 using Newtonsoft.Json;
 
-namespace Elsa.Server.Api
+namespace Elsa.Server.Api.Helpers
 {
     public static class SerializationHelper
     {
@@ -11,6 +12,7 @@ namespace Elsa.Server.Api
             // Fixes #1605.
             var settings = DefaultContentSerializer.CreateDefaultJsonSerializationSettings();
             settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
+            settings.Converters.Add(new VariablesConverter());
 
             return settings;
         }
