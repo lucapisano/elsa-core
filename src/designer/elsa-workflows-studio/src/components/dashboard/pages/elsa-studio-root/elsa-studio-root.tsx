@@ -28,6 +28,7 @@ export class ElsaStudioRoot {
   @Prop({attribute: 'monaco-lib-path', reflect: true}) monacoLibPath: string;
   @Prop({attribute: 'culture', reflect: true}) culture: string;
   @Prop({attribute: 'base-path', reflect: true}) basePath: string = '';
+  @Prop({attribute: 'appkey', reflect: true}) appkey: string = '';
   @Prop() features: any;
   @Prop() config: string;
   @State() featuresConfig: any;
@@ -70,6 +71,7 @@ export class ElsaStudioRoot {
   async componentWillLoad() {
     const elsaClientFactory: () => Promise<ElsaClient> = () => createElsaClient(this.serverUrl);
     const httpClientFactory: () => Promise<AxiosInstance> = () => createHttpClient(this.serverUrl);
+    (await httpClientFactory()).defaults.headers={appkey: this.appkey };
 
     if (this.config) {
       await fetch(`${document.location.origin}/${this.config}`)
