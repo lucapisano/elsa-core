@@ -28,6 +28,15 @@ export class ElsaDropdownProperty {
     const defaultSyntax = this.propertyDescriptor.defaultSyntax || SyntaxNames.Literal;
     this.currentValue = this.propertyModel.expressions[defaultSyntax] || undefined;
     this.selectList = await getSelectListItems(this.serverUrl, this.propertyDescriptor);
+	
+	if (this.currentValue == undefined) {
+      const firstOption : any = this.selectList.items[0];
+
+      if (firstOption) {
+        const optionIsObject = typeof (firstOption) == 'object';
+        this.currentValue = optionIsObject ? firstOption.value : firstOption.toString();
+      }
+    }
   }
 
   onChange(e: Event) {
