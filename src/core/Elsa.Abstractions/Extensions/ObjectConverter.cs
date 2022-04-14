@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Elsa.Exceptions;
 using Newtonsoft.Json.Linq;
@@ -54,6 +56,21 @@ namespace Elsa
             {
                 if (underlyingSourceType != typeof(string))
                     return Enum.ToObject(underlyingTargetType, value);
+            }
+            if (value is IEnumerable enumerable)
+            {
+                if (targetType is { IsGenericType: true })
+                {
+                    var desiredCollectionType = typeof(ICollection<>).MakeGenericType(targetType.GenericTypeArguments[0]);
+
+                    if (targetType.IsAssignableFrom(desiredCollectionType))
+                    {
+                        var collectionType = typeof(List<>).MakeGenericType(targetType.GenericTypeArguments[0]);
+                        var collection = (IList)Activator.CreateInstance(collectionType);
+                        foreach (var item in enumerable) collection.Add(item);
+                        return collection;
+                    }
+                }
             }
 
             try
