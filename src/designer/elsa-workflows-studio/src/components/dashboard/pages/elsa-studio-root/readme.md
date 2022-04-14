@@ -9,6 +9,7 @@
 
 | Property        | Attribute         | Description | Type     | Default     |
 | --------------- | ----------------- | ----------- | -------- | ----------- |
+| `appkey`        | `appkey`          |             | `string` | `''`        |
 | `basePath`      | `base-path`       |             | `string` | `''`        |
 | `config`        | `config`          |             | `string` | `undefined` |
 | `culture`       | `culture`         |             | `string` | `undefined` |

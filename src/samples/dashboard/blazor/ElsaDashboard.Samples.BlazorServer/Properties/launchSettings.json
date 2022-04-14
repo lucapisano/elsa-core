@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:18035",
-      "sslPort": 44326
+      "applicationUrl": "http://localhost:55342/",
+      "sslPort": 44366
     }
   },
   "profiles": {
@@ -17,12 +17,12 @@
     },
     "ElsaDashboard.Samples.BlazorServer": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:6001;http://localhost:6000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:6001;http://localhost:6000",
+      "dotnetRunMessages": "true"
     }
   }
 }

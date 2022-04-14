@@ -10,6 +10,7 @@
             This package provides ASP.NET Core component bindings for the Elsa Designer web component.
         </Description>
         <PackageTags>elsa, workflows, aspnet, aspnetcore, blazor, html</PackageTags>
+        <Version>2.4.0.4</Version>
     </PropertyGroup>
     
     <ItemGroup>
