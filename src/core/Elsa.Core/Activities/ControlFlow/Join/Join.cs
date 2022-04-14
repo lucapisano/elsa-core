@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -125,6 +125,9 @@ namespace Elsa.Activities.ControlFlow
         private async Task RemoveScopeActivitiesAsync(WorkflowExecutionContext workflowExecutionContext, ICollection<IActivityBlueprint> ancestors, IActivityBlueprint? fork)
         {
             var scopes = workflowExecutionContext.WorkflowInstance.Scopes.AsEnumerable().Reverse().ToList();
+
+            // Take only ancestors up until the specified fork (if any).
+            if (fork != null) ancestors = ancestors.TakeUntil(x => x.Id == fork.Id).ToList();
 
             for (var i = 0; i < scopes.Count; i++)
             {
